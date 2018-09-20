@@ -33,10 +33,8 @@ function create(req,res,next){
     closeHour: req.body.closeHour
   }).then(doc=>{
     req.place = doc;
-    //res.json(doc);
     next();
   }).catch(err=>{
-    //res.json(err);
     next(err);
   })
 }

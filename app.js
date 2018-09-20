@@ -10,7 +10,6 @@ const db = require('./config/database');
 db.connect();
 var app = express();
 
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

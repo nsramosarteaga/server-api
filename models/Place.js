@@ -61,7 +61,6 @@ function generateSlugSaveAndContinue(count,next){
       return generateSlugSaveAndContinue.call(this,count+1,next);
 
     next();
-
   })
 }
 
