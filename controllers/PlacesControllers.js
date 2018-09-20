@@ -1,9 +1,10 @@
 const Place = require('../models/Place');
 const upload =  require('../config/upload');
-const uploader = require('../models/Uploader');
+//const uploader = require('../models/Uploader');
 
 function find(req,res,next){
-  Place.findById(req.params.id)
+  //
+  Place.findOne({slug: req.params.id})
   .then(place=>{
     req.place = place;
     next();
@@ -82,16 +83,24 @@ function multerMiddleware(){
 
 function saveImage(req,res){
   if(req.place){
-    if(req.files && req.files.avatar){
-      let path = req.files.avatar[0].path;
-      uploader.path(path).then(result=>{
-        console.log(result);
-        res.json(req.place);
-      }).catch(err=>{
-        console.log(err);
-        res.json(err);
-      })
-    }
+    const files = ['avatar','cover'];
+    const promises = [];
+
+    files.forEach(imageType=>{
+      if(req.files && req.files[imageType]){
+        let path = req.files[imageType][0].path;
+        promises.push(req.place.updateImage(path,imageType));
+      }
+    })
+
+    Promise.all(promises).then(results=>{
+      console.log(results);
+      res.json(req.place)
+    }).catch(err=>{
+      console.log(err);
+      res.json(err);
+    })
+
   }else{
     res.status(422).json({
       error: req.error || 'Could not save place'
