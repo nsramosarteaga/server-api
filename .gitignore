@@ -1,1 +1,2 @@
-config/secrets.js
+*.iso
+**/config/secrets.js
