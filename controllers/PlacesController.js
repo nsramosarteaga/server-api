@@ -9,6 +9,7 @@ function find(req,res,next){
   Place.findOne({slug: req.params.id})
   .then(place=>{
     req.place = place;
+    req.mainObj = place;
     next();
   }).catch(err=>{
     next(err);
@@ -27,7 +28,8 @@ function index(req,res){
 
 function create(req,res,next){
   //Crear recurso
-  const params = helpers.buildParams(validParams,req.body);
+  let params = helpers.buildParams(validParams,req.body);
+  params['_user'] = req.user.id;
 
   Place.create(params).then(doc=>{
     req.place = doc;

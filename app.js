@@ -2,11 +2,15 @@ var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var logger = require('morgan');
+const jwtMiddleware = require('express-jwt');
 
-const places = require('./routes/places.js');
-const users = require('./routes/users.js');
+const places = require('./routes/places');
+const users = require('./routes/users');
+const sessions = require('./routes/sessions');
+const favorites = require('./routes/favorites');
 
 const db = require('./config/database');
+const secrets = require('./config/secrets');
 
 db.connect();
 var app = express();
@@ -16,8 +20,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(
+  jwtMiddleware({secret: secrets.jwtSecret})
+    .unless({path: ['/sessions','/users'], method: 'GET'})
+)
+
 app.use('/places',places);
 app.use('/users',users);
+app.use('/sessions',sessions);
+app.use('/favorites',favorites);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
