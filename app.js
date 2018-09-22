@@ -3,7 +3,8 @@ var express = require('express');
 var path = require('path');
 var logger = require('morgan');
 
-const routePlaces = require('./routes/places.js');
+const places = require('./routes/places.js');
+const users = require('./routes/users.js');
 
 const db = require('./config/database');
 
@@ -15,7 +16,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/places',routePlaces);
+app.use('/places',places);
+app.use('/users',users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

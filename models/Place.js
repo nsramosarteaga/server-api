@@ -12,6 +12,7 @@ let placeSchema = new mongoose.Schema({
     type: String,
     unique: true
   },
+  address: String,
   description: String,
   acceptsCreditCard:{
     type: Boolean,
@@ -36,7 +37,7 @@ placeSchema.methods.saveImageUrl = function(secureUrl,imageType){
 }
 
 placeSchema.pre('save',function(next){
-  console.log('pre:' + this);
+  //console.log('pre:' + this);
   if(this.slug) return next();
   generateSlugSaveAndContinue.call(this,0,next)
 });
@@ -64,6 +65,6 @@ function generateSlugSaveAndContinue(count,next){
   })
 }
 
-let Place = mongoose.model('Place', placeSchema);
+const Place = mongoose.model('Place', placeSchema);
 
 module.exports = Place;

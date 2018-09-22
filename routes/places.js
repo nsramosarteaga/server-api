@@ -1,10 +1,8 @@
 const express = require('express');
-
 //const Place = require('../models/Place');
+const router = express.Router();
 
-const placesController = require('../controllers/PlacesControllers');
-
-let router = express.Router();
+const placesController = require('../controllers/PlacesController');
 
 router.route('/')
   .get(placesController.index)
