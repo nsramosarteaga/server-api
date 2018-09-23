@@ -2,13 +2,14 @@ const express = require('express');
 const router = express.Router();
 
 const favoritesController = require('../controllers/FavoritesController');
+const findUser = require('../middlewares/findUser');
 const authenticateOwner = require('../middlewares/authenticateOwner');
 
 const jwtMiddleware = require('express-jwt');
 const secrets = require('../config/secrets');
 
 router.route('/')
-  .get(jwtMiddleware({secret: secrets.jwtSecret}),favoritesController.index)
+  .get(jwtMiddleware({secret: secrets.jwtSecret}),findUser,favoritesController.index)
   .post(favoritesController.create);
 
 router.route('/:id')
