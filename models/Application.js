@@ -9,16 +9,16 @@ function assignRandomAndUniqueValueToField(app,field,next){
 
   searchCriteria[field] = randomString;
 
-  Application.count(searchCriteria).then(count=>{
+  Application.countDocuments(searchCriteria).then(count=>{
     if(count > 0) return assignRandomAndUniqueValueToField(app,field,next);
-
+    console.log(field + ':' + randomString);
     app[field] = randomString;
     next();
   })
 }
 
 let applicationSchema = new mongoose.Schema({
-  applicationsId:{
+  applicationId:{
     type: String,
     required: true,
     unique: true
@@ -33,7 +33,7 @@ let applicationSchema = new mongoose.Schema({
 });
 
 applicationSchema.pre('validate', function(next){
-  assignRandomAndUniqueValueToField(this,'applicationsId',()=>{
+  assignRandomAndUniqueValueToField(this,'applicationId',()=>{
     assignRandomAndUniqueValueToField(this,'secret',next);
   })
 })
