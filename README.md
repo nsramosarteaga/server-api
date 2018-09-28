@@ -13,7 +13,7 @@ You will need a secret.js field with the credentials of Cloudinary and a own SEC
 
 module.exports = {
   cloudinary: {
-    api_key: 'mycloudinaryqpikey',
+    api_key: 'mycloudinaryapikey',
     cloud_name: 'mycloudinaryname',
     api_secret: 'mycloudinaryapisecret'
   },
